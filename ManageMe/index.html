@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div class="container">
+        <h1>Project Manager</h1>
+        <div class="form-group">
+            <input type="text" id="projectName" placeholder="Project Name">
+            <textarea id="projectDescription" placeholder="Project Description"></textarea>
+            <button id="createProjectBtn">Create Project</button>
+        </div>
+        <div id="projectList"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
