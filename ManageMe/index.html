@@ -1,30 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Project Manager</h1>
-      <div class="user-profile">
-          <h2>User Profile</h2>
-          <input type="text" id="userName" placeholder="User Name">
-          <input type="email" id="userEmail" placeholder="User Email">
-      </div>
-      <div class="form-group">
-          <input type="text" id="projectName" placeholder="Project Name">
-          <textarea id="projectDescription" placeholder="Project Description"></textarea>
-          <button id="createProjectBtn">Create Project</button>
-      </div>
-      <div id="currentProject">
-          <h2>Current Project</h2>
-          <div id="currentProjectDetails"></div>
-      </div>
-      <div id="projectList"></div>
-  </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="user-details">
+            <p id="userName"></p>
+            <p id="userEmail"></p>
+        </div>
+    </header>
+    <main>
+        <div id="projectForm" class="project-form">
+            <input type="text" id="projectName" placeholder="Project Name">
+            <textarea id="projectDescription" placeholder="Project Description"></textarea>
+            <button id="createProjectBtn" class="create-btn">Create Project</button>
+        </div>
+        <div id="projectList" class="project-list"></div>
+        <div id="projectDetails" class="project-details hidden">
+            <button id="backBtn" class="back-btn">Powrót</button>
+            <div class="project-info">
+                <input type="text" id="selectedProjectName" placeholder="Project Name">
+                <textarea id="selectedProjectDescription" placeholder="Project Description"></textarea>
+                <button id="deleteSelectedProjectBtn" class="delete-btn">Delete Project</button>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+</body>
 </html>

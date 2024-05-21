@@ -6,58 +6,43 @@ import IProject from './models/IProject';
 const projectService = new ProjectService();
 const userService = new UserService();
 
-document.getElementById('createProjectBtn')!.addEventListener('click', createOrUpdateProject);
+document.getElementById('createProjectBtn')!.addEventListener('click', createProject);
+document.getElementById('backBtn')!.addEventListener('click', showProjectList);
+document.getElementById('deleteSelectedProjectBtn')!.addEventListener('click', deleteSelectedProject);
 
-function createOrUpdateProject() {
+function createProject() {
     const name = (document.getElementById('projectName') as HTMLInputElement).value;
     const description = (document.getElementById('projectDescription') as HTMLTextAreaElement).value;
 
     if (name && description) {
-        const currentProjectId = projectService.getCurrentProject()?.id;
-        if (currentProjectId) {
-            projectService.update(currentProjectId, name, description);
-        } else {
-            projectService.create(name, description);
-        }
+        projectService.create(name, description);
         renderProjects();
         clearForm();
-        renderCurrentProject();
     }
 }
+
+
 
 function renderProjects() {
     const projectList = document.getElementById('projectList')!;
     projectList.innerHTML = '';
     const projects = projectService.getAll();
-    const currentProjectId = projectService.getCurrentProject()?.id;
 
     projects.forEach(project => {
         const projectItem = document.createElement('div');
         projectItem.className = 'project-item';
-        if (project.id === currentProjectId) {
-            projectItem.classList.add('selected');
-        }
 
         const projectDetails = document.createElement('div');
         projectDetails.className = 'project-details';
 
-        const projectNameInput = document.createElement('input');
-        projectNameInput.type = 'text';
-        projectNameInput.value = project.name;
-        projectNameInput.addEventListener('change', (event) => {
-            const target = event.target as HTMLInputElement;
-            projectService.update(project.id, target.value, project.description);
-        });
+        const projectName = document.createElement('span');
+        projectName.textContent = project.name;
 
-        const projectDescriptionTextarea = document.createElement('textarea');
-        projectDescriptionTextarea.value = project.description;
-        projectDescriptionTextarea.addEventListener('change', (event) => {
-            const target = event.target as HTMLTextAreaElement;
-            projectService.update(project.id, project.name, target.value);
-        });
+        const projectDescription = document.createElement('p');
+        projectDescription.textContent = project.description;
 
-        projectDetails.appendChild(projectNameInput);
-        projectDetails.appendChild(projectDescriptionTextarea);
+        projectDetails.appendChild(projectName);
+        projectDetails.appendChild(projectDescription);
 
         const projectActions = document.createElement('div');
         projectActions.className = 'project-actions';
@@ -67,8 +52,7 @@ function renderProjects() {
         selectButton.className = 'select-btn';
         selectButton.addEventListener('click', () => {
             projectService.setCurrentProject(project.id);
-            renderProjects();
-            renderCurrentProject();
+            showProjectDetails(project);
         });
 
         const deleteButton = document.createElement('button');
@@ -77,7 +61,6 @@ function renderProjects() {
         deleteButton.addEventListener('click', () => {
             projectService.delete(project.id);
             renderProjects();
-            renderCurrentProject();
         });
 
         projectActions.appendChild(selectButton);
@@ -88,53 +71,67 @@ function renderProjects() {
     });
 }
 
-function renderCurrentProject() {
-    const currentProjectDetails = document.getElementById('currentProjectDetails')!;
-    const currentProject = projectService.getCurrentProject();
-    if (currentProject) {
-        currentProjectDetails.innerHTML = `
-            <p><strong>Name:</strong> ${currentProject.name}</p>
-            <p><strong>Description:</strong> ${currentProject.description}</p>
-        `;
-        const nameInput = document.getElementById('projectName') as HTMLInputElement;
-        const descriptionTextarea = document.getElementById('projectDescription') as HTMLTextAreaElement;
+function showProjectDetails(project: IProject) {
+    const projectForm = document.getElementById('projectForm')!;
+    const projectList = document.getElementById('projectList')!;
+    const projectDetails = document.getElementById('projectDetails')!;
 
-        nameInput.value = currentProject.name;
-        descriptionTextarea.value = currentProject.description;
+    projectForm.classList.add('hidden');
+    projectList.classList.add('hidden');
+    projectDetails.classList.remove('hidden');
 
-        document.getElementById('createProjectBtn')!.textContent = 'Update Project';
-    } else {
-        currentProjectDetails.innerHTML = '<p>No project selected</p>';
-        document.getElementById('createProjectBtn')!.textContent = 'Create Project';
+    const nameInput = document.getElementById('selectedProjectName') as HTMLInputElement;
+    const descriptionTextarea = document.getElementById('selectedProjectDescription') as HTMLTextAreaElement;
+
+    nameInput.value = project.name;
+    descriptionTextarea.value = project.description;
+
+    nameInput.addEventListener('input', (event) => {
+        const target = event.target as HTMLInputElement;
+        projectService.update(project.id, target.value, project.description);
+    });
+
+    descriptionTextarea.addEventListener('input', (event) => {
+        const target = event.target as HTMLTextAreaElement;
+        projectService.update(project.id, project.name, target.value);
+    });
+}
+
+function showProjectList() {
+    const projectForm = document.getElementById('projectForm')!;
+    const projectList = document.getElementById('projectList')!;
+    const projectDetails = document.getElementById('projectDetails')!;
+
+    projectForm.classList.remove('hidden');
+    projectList.classList.remove('hidden');
+    projectDetails.classList.add('hidden');
+
+    projectService.clearCurrentProject();
+    renderProjects();
+}
+
+function deleteSelectedProject() {
+    const currentProjectId = projectService.getCurrentProject()?.id;
+    if (currentProjectId) {
+        projectService.delete(currentProjectId);
+        showProjectList();
     }
 }
 
 function renderUser() {
     const user = userService.getUser();
-    const userNameInput = document.getElementById('userName') as HTMLInputElement;
-    const userEmailInput = document.getElementById('userEmail') as HTMLInputElement;
+    const userNameElement = document.getElementById('userName')!;
+    const userEmailElement = document.getElementById('userEmail')!;
 
-    userNameInput.value = user.name;
-    userEmailInput.value = user.email;
-
-    userNameInput.addEventListener('change', (event) => {
-        const target = event.target as HTMLInputElement;
-        userService.updateUser(target.value, user.email);
-    });
-
-    userEmailInput.addEventListener('change', (event) => {
-        const target = event.target as HTMLInputElement;
-        userService.updateUser(user.name, target.value);
-    });
+    userNameElement.textContent = `Name: ${user.name}`;
+    userEmailElement.textContent = `Email: ${user.email}`;
 }
 
 function clearForm() {
     (document.getElementById('projectName') as HTMLInputElement).value = '';
     (document.getElementById('projectDescription') as HTMLTextAreaElement).value = '';
-    document.getElementById('createProjectBtn')!.textContent = 'Create Project';
     projectService.clearCurrentProject();
 }
 
 renderProjects();
 renderUser();
-renderCurrentProject();
