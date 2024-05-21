@@ -134,14 +134,38 @@ function renderStories(projectId: string) {
         const storyDetails = document.createElement('div');
         storyDetails.className = 'story-details';
 
-        const storyName = document.createElement('span');
-        storyName.textContent = story.name;
+        const storyName = document.createElement('input');
+        storyName.type = 'text';
+        storyName.value = story.name;
+        storyName.className = 'story-input';
+        storyName.addEventListener('input', (event) => {
+            const target = event.target as HTMLInputElement;
+            story.name = target.value;
+        });
 
-        const storyDescription = document.createElement('p');
-        storyDescription.textContent = story.description;
+        const storyDescription = document.createElement('textarea');
+        storyDescription.value = story.description;
+        storyDescription.className = 'story-input';
+        storyDescription.addEventListener('input', (event) => {
+            const target = event.target as HTMLTextAreaElement;
+            story.description = target.value;
+        });
 
-        const storyPriority = document.createElement('span');
-        storyPriority.textContent = `Priority: ${story.priority}`;
+        const storyPriority = document.createElement('select');
+        ['low', 'medium', 'high'].forEach(priority => {
+            const option = document.createElement('option');
+            option.value = priority;
+            option.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
+            if (priority === story.priority) {
+                option.selected = true;
+            }
+            storyPriority.appendChild(option);
+        });
+        storyPriority.className = 'story-input';
+        storyPriority.addEventListener('change', (event) => {
+            const target = event.target as HTMLSelectElement;
+            story.priority = target.value as 'low' | 'medium' | 'high';
+        });
 
         const storyState = document.createElement('span');
         storyState.textContent = `State: ${story.status}`;
@@ -178,6 +202,15 @@ function renderStories(projectId: string) {
             storyActions.appendChild(moveButton);
         }
 
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.className = 'save-btn';
+        saveButton.addEventListener('click', () => {
+            storyService.update(story.id, story.name, story.description, story.priority, story.status);
+            renderStories(projectId);
+        });
+
+        storyActions.appendChild(saveButton);
         storyActions.appendChild(deleteButton);
         storyItem.appendChild(storyDetails);
         storyItem.appendChild(storyActions);

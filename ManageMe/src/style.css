@@ -82,6 +82,18 @@ button:hover {
   color: white;
 }
 
+.save-btn {
+  background-color: #ffc107;
+  color: white;
+}
+
+.story-input {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
 .project-item {
   padding: 10px;
   border-bottom: 1px solid #ddd;
