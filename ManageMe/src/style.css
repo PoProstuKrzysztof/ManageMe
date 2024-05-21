@@ -1,134 +1,111 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* styles.css */
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.container {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.header {
+  background-color: #007bff;
+  color: white;
   padding: 20px;
-  max-width: 500px;
-  width: 100%;
+  text-align: right;
 }
 
-h1 {
-  text-align: center;
-  color: #333;
+.user-details p {
+  margin: 0;
 }
 
-.form-group {
+main {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  padding: 20px;
 }
 
-.form-group input,
-.form-group textarea {
+.project-form, .project-list, .project-details {
+  width: 100%;
+  max-width: 800px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.project-form input, .project-form textarea, .project-details input, .project-details textarea {
+  width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
-  width: 100%;
+  box-sizing: border-box;
 }
 
-.form-group button {
+button {
   padding: 10px;
-  background: #28a745;
-  color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
   cursor: pointer;
-  transition: all 0.5s ease-out allow-discrete;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
+  box-sizing: border-box;
 }
 
-.form-group button:hover {
-  background: #218838;
+button:hover {
+  opacity: 0.9;
 }
 
-#projectList {
-  margin-top: 20px;
+.create-btn, .select-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.back-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
 }
 
 .project-item {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 4px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.project-item.selected {
+  border: 2px solid #007bff;
+}
+
+.project-details input,
+.project-details textarea {
   margin-bottom: 10px;
+}
+
+.project-actions {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  transition: transform 0.3s;
+  width: 100%;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.project-item:hover {
-  transform: scale(1.02);
+.hidden {
+  display: none;
 }
 
-.project-details {
-  flex-grow: 1;
-  margin-right: 10px;
-}
-
-.project-details h2 {
-  margin: 0 0 5px;
-  font-size: 18px;
-  color: #333;
-}
-
-.project-details p {
-  margin: 0;
-  color: #666;
-}
-
-.project-actions button {
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: all 0.5s ease-out allow-discrete;
-}
-
-.project-actions button:hover {
-  background: #c82333;
-}
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.project-info {
+  width: 100%;
 }
