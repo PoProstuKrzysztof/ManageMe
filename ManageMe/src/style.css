@@ -38,7 +38,7 @@ main {
   box-sizing: border-box;
 }
 
-.project-form input, .project-form textarea, .project-details input, .project-details textarea {
+.project-form input, .project-form textarea, .project-details input, .project-details textarea, .story-form input, .story-form textarea, .story-form select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -77,6 +77,23 @@ button:hover {
   color: white;
 }
 
+.move-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.save-btn {
+  background-color: #ffc107;
+  color: white;
+}
+
+.story-input {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
 .project-item {
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -108,4 +125,42 @@ button:hover {
 
 .project-info {
   width: 100%;
+}
+
+.story-form {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.stories-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.story-column {
+  width: 30%;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.story-item {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.story-details span {
+  display: block;
+}
+
+.story-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }

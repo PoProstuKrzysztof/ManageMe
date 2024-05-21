@@ -27,6 +27,27 @@
                 <textarea id="selectedProjectDescription" placeholder="Project Description"></textarea>
                 <button id="deleteSelectedProjectBtn" class="delete-btn">Delete Project</button>
             </div>
+            <div id="storyForm" class="story-form">
+                <input type="text" id="storyName" placeholder="Story Name">
+                <textarea id="storyDescription" placeholder="Story Description"></textarea>
+                <select id="storyPriority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <button id="createStoryBtn" class="create-btn">Create Story</button>
+            </div>
+            <div id="storiesContainer" class="stories-container">
+                <div class="story-column" id="todoColumn">
+                    <h3>To do</h3>
+                </div>
+                <div class="story-column" id="doingColumn">
+                    <h3>In Progress</h3>
+                </div>
+                <div class="story-column" id="doneColumn">
+                    <h3>Finished</h3>
+                </div>
+            </div>
         </div>
     </main>
     <script type="module" src="./src/main.ts"></script>
