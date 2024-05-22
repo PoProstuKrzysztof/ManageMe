@@ -1,23 +1,23 @@
-import IUser from '../models/IUser.ts';
+import IUser from '../models/IUser';
 
 export class UserService {
-    private user: IUser;
+    private users: IUser[];
+    private loggedInUser: IUser;
 
     constructor() {
-        // Mock zalogowanego użytkownika
-        this.user = {
-            id: '1',
-            name: 'John Doe',
-            email: 'john.doe@example.com'
-        };
+        this.users = [
+            { id: '1', name: 'Admin User', email: 'admin@example.com', role: 'admin' },
+            { id: '2', name: 'Developer User', email: 'developer@example.com', role: 'developer' },
+            { id: '3', name: 'DevOps User', email: 'devops@example.com', role: 'devops' }
+        ];
+        this.loggedInUser = this.users[0]; // Zalogowany użytkownik to admin
     }
 
     getUser(): IUser {
-        return this.user;
+        return this.loggedInUser;
     }
 
-    updateUser(name: string, email: string): void {
-        this.user.name = name;
-        this.user.email = email;
+    getAllUsers(): IUser[] {
+        return this.users;
     }
 }

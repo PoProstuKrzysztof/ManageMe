@@ -37,16 +37,47 @@
                 </select>
                 <button id="createStoryBtn" class="create-btn">Create Story</button>
             </div>
-            <div id="storiesContainer" class="stories-container">
-                <div class="story-column" id="todoColumn">
-                    <h3>To do</h3>
+            <div id="taskForm" class="task-form">
+                <input type="text" id="taskName" placeholder="Task Name">
+                <textarea id="taskDescription" placeholder="Task Description"></textarea>
+                <select id="taskPriority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <input type="number" id="taskEstimatedHours" placeholder="Estimated Hours">
+                <select id="taskStory">
+
+                </select>
+                <button id="createTaskBtn" class="create-btn">Create Task</button>
+            </div>
+            <div id="tasksContainer" class="tasks-container">
+                <div class="task-column" id="taskTodoColumn">
+                    <h3>To Do</h3>
                 </div>
-                <div class="story-column" id="doingColumn">
-                    <h3>In Progress</h3>
+                <div class="task-column" id="taskDoingColumn">
+                    <h3>Doing</h3>
                 </div>
-                <div class="story-column" id="doneColumn">
-                    <h3>Finished</h3>
+                <div class="task-column" id="taskDoneColumn">
+                    <h3>Done</h3>
                 </div>
+            </div>
+            <div id="taskDetails" class="task-details hidden">
+                <h3>Task Details</h3>
+                <p id="taskNameDetail"></p>
+                <p id="taskDescriptionDetail"></p>
+                <p id="taskPriorityDetail"></p>
+                <p id="taskStoryDetail"></p>
+                <p id="taskEstimatedHoursDetail"></p>
+                <p id="taskStatusDetail"></p>
+                <p id="taskCreatedDateDetail"></p>
+                <p id="taskStartDateDetail"></p>
+                <p id="taskEndDateDetail"></p>
+                <p id="taskAssignedUserDetail"></p>
+                <select id="taskAssignUser">
+                </select>
+                <button id="assignUserBtn" class="assign-btn">Assign User</button>
+                <button id="markDoneBtn" class="done-btn">Mark as Done</button>
             </div>
         </div>
     </main>
