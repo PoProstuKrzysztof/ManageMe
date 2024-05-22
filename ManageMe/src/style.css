@@ -27,7 +27,7 @@ main {
   padding: 20px;
 }
 
-.project-form, .project-list, .project-details {
+.project-form, .project-list, .project-details, .task-form, .task-details {
   width: 100%;
   max-width: 800px;
   background-color: white;
@@ -38,7 +38,7 @@ main {
   box-sizing: border-box;
 }
 
-.project-form input, .project-form textarea, .project-details input, .project-details textarea, .story-form input, .story-form textarea, .story-form select {
+.project-form input, .project-form textarea, .project-details input, .project-details textarea, .task-form input, .task-form textarea, .task-form select, .task-details select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -62,7 +62,7 @@ button:hover {
   opacity: 0.9;
 }
 
-.create-btn, .select-btn {
+.create-btn, .select-btn, .assign-btn, .done-btn {
   background-color: #28a745;
   color: white;
 }
@@ -87,14 +87,14 @@ button:hover {
   color: white;
 }
 
-.story-input {
+.story-input, .task-input {
   margin-bottom: 10px;
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
 }
 
-.project-item {
+.project-item, .task-item {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   display: flex;
@@ -102,7 +102,7 @@ button:hover {
   align-items: flex-start;
 }
 
-.project-item.selected {
+.project-item.selected, .task-item.selected {
   border: 2px solid #007bff;
 }
 
@@ -111,7 +111,7 @@ button:hover {
   margin-bottom: 10px;
 }
 
-.project-actions {
+.project-actions, .task-actions {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -123,22 +123,22 @@ button:hover {
   display: none;
 }
 
-.project-info {
+.project-info, .task-info {
   width: 100%;
 }
 
-.story-form {
+.story-form, .task-form {
   width: 100%;
   margin-bottom: 20px;
 }
 
-.stories-container {
+.stories-container, .tasks-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.story-column {
+.story-column, .task-column {
   width: 30%;
   background-color: #f9f9f9;
   padding: 10px;
@@ -147,7 +147,7 @@ button:hover {
   box-sizing: border-box;
 }
 
-.story-item {
+.story-item, .task-item {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -155,11 +155,11 @@ button:hover {
   word-wrap: break-word;
 }
 
-.story-details span {
+.story-details span, .task-details span {
   display: block;
 }
 
-.story-actions {
+.story-actions, .task-actions {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;

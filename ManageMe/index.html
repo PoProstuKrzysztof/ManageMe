@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Management</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
     <header class="header">
@@ -19,14 +19,15 @@
             <textarea id="projectDescription" placeholder="Project Description"></textarea>
             <button id="createProjectBtn" class="create-btn">Create Project</button>
         </div>
+
         <div id="projectList" class="project-list"></div>
+
         <div id="projectDetails" class="project-details hidden">
-            <button id="backBtn" class="back-btn">Powrót</button>
-            <div class="project-info">
-                <input type="text" id="selectedProjectName" placeholder="Project Name">
-                <textarea id="selectedProjectDescription" placeholder="Project Description"></textarea>
-                <button id="deleteSelectedProjectBtn" class="delete-btn">Delete Project</button>
-            </div>
+            <input type="text" id="selectedProjectName">
+            <textarea id="selectedProjectDescription"></textarea>
+            <button id="backBtn" class="back-btn">Back to Projects</button>
+            <button id="deleteSelectedProjectBtn" class="delete-btn">Delete Project</button>
+
             <div id="storyForm" class="story-form">
                 <input type="text" id="storyName" placeholder="Story Name">
                 <textarea id="storyDescription" placeholder="Story Description"></textarea>
@@ -37,7 +38,14 @@
                 </select>
                 <button id="createStoryBtn" class="create-btn">Create Story</button>
             </div>
-            <div id="taskForm" class="task-form">
+
+            <div id="storyList" class="story-list">
+                <div id="todoColumn" class="story-column"></div>
+                <div id="doingColumn" class="story-column"></div>
+                <div id="doneColumn" class="story-column"></div>
+            </div>
+
+            <div id="taskForm" class="task-form hidden">
                 <input type="text" id="taskName" placeholder="Task Name">
                 <textarea id="taskDescription" placeholder="Task Description"></textarea>
                 <select id="taskPriority">
@@ -47,23 +55,17 @@
                 </select>
                 <input type="number" id="taskEstimatedHours" placeholder="Estimated Hours">
                 <select id="taskStory">
-
                 </select>
                 <button id="createTaskBtn" class="create-btn">Create Task</button>
             </div>
-            <div id="tasksContainer" class="tasks-container">
-                <div class="task-column" id="taskTodoColumn">
-                    <h3>To Do</h3>
-                </div>
-                <div class="task-column" id="taskDoingColumn">
-                    <h3>Doing</h3>
-                </div>
-                <div class="task-column" id="taskDoneColumn">
-                    <h3>Done</h3>
-                </div>
+
+            <div id="taskList" class="task-list">
+                <div id="taskTodoColumn" class="task-column"></div>
+                <div id="taskDoingColumn" class="task-column"></div>
+                <div id="taskDoneColumn" class="task-column"></div>
             </div>
+
             <div id="taskDetails" class="task-details hidden">
-                <h3>Task Details</h3>
                 <p id="taskNameDetail"></p>
                 <p id="taskDescriptionDetail"></p>
                 <p id="taskPriorityDetail"></p>
@@ -74,13 +76,12 @@
                 <p id="taskStartDateDetail"></p>
                 <p id="taskEndDateDetail"></p>
                 <p id="taskAssignedUserDetail"></p>
-                <select id="taskAssignUser">
-                </select>
+                <select id="taskAssignUser"></select>
                 <button id="assignUserBtn" class="assign-btn">Assign User</button>
                 <button id="markDoneBtn" class="done-btn">Mark as Done</button>
             </div>
         </div>
     </main>
-    <script type="module" src="./src/main.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
