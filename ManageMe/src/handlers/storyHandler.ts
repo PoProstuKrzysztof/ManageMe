@@ -13,7 +13,6 @@ export function createStory() {
     const name = (document.getElementById('storyName') as HTMLInputElement).value;
     const description = (document.getElementById('storyDescription') as HTMLTextAreaElement).value;
     const priority = (document.getElementById('storyPriority') as HTMLSelectElement).value as 'low' | 'medium' | 'high';
-    const status = 'todo';
     const projectId = projectService.getCurrentProject()?.id;
 
     if (name && description && projectId) {
@@ -21,6 +20,7 @@ export function createStory() {
         storyService.create(name, description, priority, projectId, owner);
         renderStories(projectId);
         clearStoryForm();
+        closeStoryModal(); 
     }
 }
 
@@ -29,7 +29,7 @@ export function renderStories(projectId: string) {
     const doingColumn = document.getElementById('doingColumn')!;
     const doneColumn = document.getElementById('doneColumn')!;
 
-    todoColumn.innerHTML = '<h3>To Do</h3>';
+    todoColumn.innerHTML = '<h3>To Do <span id="addStoryBtn" class="add-btn">+</span></h3>';
     doingColumn.innerHTML = '<h3>Doing</h3>';
     doneColumn.innerHTML = '<h3>Done</h3>';
 
@@ -152,6 +152,10 @@ export function renderStories(projectId: string) {
             doneColumn.appendChild(storyItem);
         }
     });
+
+
+    document.getElementById('addStoryBtn')!.addEventListener('click', openStoryModal);
+    document.getElementById('closeStoryModal')!.addEventListener('click', closeStoryModal);
 }
 
 export function clearStoryForm() {
@@ -164,4 +168,14 @@ export function showTaskForm(storyId: string) {
     const taskForm = document.getElementById('taskForm')!;
     taskForm.classList.remove('hidden');
     (document.getElementById('taskStory') as HTMLSelectElement).value = storyId;
+}
+
+export function openStoryModal() {
+    const storyModal = document.getElementById('storyModal')!;
+    storyModal.classList.remove('hidden');
+}
+
+export function closeStoryModal() {
+    const storyModal = document.getElementById('storyModal')!;
+    storyModal.classList.add('hidden');
 }

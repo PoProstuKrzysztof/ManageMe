@@ -28,21 +28,16 @@
             <button id="backBtn" class="back-btn">Back to Projects</button>
             <button id="deleteSelectedProjectBtn" class="delete-btn">Delete Project</button>
 
-            <div id="storyForm" class="story-form">
-                <input type="text" id="storyName" placeholder="Story Name">
-                <textarea id="storyDescription" placeholder="Story Description"></textarea>
-                <select id="storyPriority">
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
-                <button id="createStoryBtn" class="create-btn">Create Story</button>
-            </div>
-
             <div id="storyList" class="story-list">
-                <div id="todoColumn" class="story-column"></div>
-                <div id="doingColumn" class="story-column"></div>
-                <div id="doneColumn" class="story-column"></div>
+                <div id="todoColumn" class="story-column">
+                    <h3>To Do <button id="addStoryBtn" class="add-btn">+</button></h3>
+                </div>
+                <div id="doingColumn" class="story-column">
+                    <h3>Doing</h3>
+                </div>
+                <div id="doneColumn" class="story-column">
+                    <h3>Done</h3>
+                </div>
             </div>
 
             <div id="taskForm" class="task-form hidden">
@@ -55,6 +50,7 @@
                 </select>
                 <input type="number" id="taskEstimatedHours" placeholder="Estimated Hours">
                 <select id="taskStory">
+                    <!-- Opcje będą wypełniane dynamicznie -->
                 </select>
                 <button id="createTaskBtn" class="create-btn">Create Task</button>
             </div>
@@ -79,6 +75,21 @@
                 <select id="taskAssignUser"></select>
                 <button id="assignUserBtn" class="assign-btn">Assign User</button>
                 <button id="markDoneBtn" class="done-btn">Mark as Done</button>
+            </div>
+        </div>
+
+        <div id="storyModal" class="modal hidden">
+            <div class="modal-content">
+                
+                <input type="text" id="storyName" placeholder="Story Name">
+                <textarea id="storyDescription" placeholder="Story Description"></textarea>
+                <select id="storyPriority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <button id="createStoryBtn" class="create-btn">Create Story</button>
+                <span class="close-btn" id="closeStoryModal">&times;</span>
             </div>
         </div>
     </main>
