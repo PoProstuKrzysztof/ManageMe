@@ -164,16 +164,17 @@ button:hover {
   border-radius: 4px;
   margin-bottom: 10px;
   word-wrap: break-word;
+  font-size: 0.9rem;
 }
 
-.story-details span, .task-details span {
-  display: block;
+.story-details, .story-actions {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.story-actions, .task-actions {
+.story-details.active, .story-actions.active {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
 }
 
 .add-btn {
@@ -181,6 +182,20 @@ button:hover {
   font-size: 1.5rem;
   color: green;
   margin-left: 10px;
+  border: none;
+  background: none;
+}
+
+.info-btn {
+  background-color: #007bff;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.move-btn {
+  background-color: #28a745;
+  color: white;
+  font-size: 0.9rem;
 }
 
 .modal {
@@ -195,6 +210,7 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.4);
   padding-top: 60px;
 }
+
 .modal-content {
   display: flex;
   flex-wrap: wrap;
@@ -206,6 +222,7 @@ button:hover {
   max-width: 500px;
   border-radius: 4px;
 }
+
 .close-btn {
   color: #aaa;
   float: right;
@@ -218,11 +235,4 @@ button:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-.add-btn {
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: green;
-  border: none;
-  background: none;
 }

@@ -78,6 +78,7 @@ export function renderTasks() {
             taskDoingColumn.appendChild(taskItem);
         } else if (task.status === 'done') {
             taskDoneColumn.appendChild(taskItem);
+            taskItem.
         }
     });
 }
@@ -88,14 +89,23 @@ export function showTaskDetails(task: ITask) {
     taskDetails.classList.remove('hidden');
 
     (document.getElementById('taskNameDetail') as HTMLParagraphElement).textContent = `Name: ${task.name}`;
+
     (document.getElementById('taskDescriptionDetail') as HTMLParagraphElement).textContent = `Description: ${task.description}`;
+
     (document.getElementById('taskPriorityDetail') as HTMLParagraphElement).textContent = `Priority: ${task.priority}`;
+
     (document.getElementById('taskStoryDetail') as HTMLParagraphElement).textContent = `Story: ${task.storyId}`;
+
     (document.getElementById('taskEstimatedHoursDetail') as HTMLParagraphElement).textContent = `Estimated Hours: ${task.estimatedHours}`;
+
     (document.getElementById('taskStatusDetail') as HTMLParagraphElement).textContent = `Status: ${task.status}`;
+
     (document.getElementById('taskCreatedDateDetail') as HTMLParagraphElement).textContent = `Created Date: ${task.createdDate}`;
+
     (document.getElementById('taskStartDateDetail') as HTMLParagraphElement).textContent = `Start Date: ${task.startDate || 'N/A'}`;
+
     (document.getElementById('taskEndDateDetail') as HTMLParagraphElement).textContent = `End Date: ${task.endDate || 'N/A'}`;
+    
     (document.getElementById('taskAssignedUserDetail') as HTMLParagraphElement).textContent = `Assigned User: ${task.assignedUserId || 'N/A'}`;
 
     const userSelect = document.getElementById('taskAssignUser') as HTMLSelectElement;
