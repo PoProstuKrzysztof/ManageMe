@@ -78,7 +78,6 @@ export function renderTasks() {
             taskDoingColumn.appendChild(taskItem);
         } else if (task.status === 'done') {
             taskDoneColumn.appendChild(taskItem);
-            taskItem.
         }
     });
 }
@@ -105,7 +104,7 @@ export function showTaskDetails(task: ITask) {
     (document.getElementById('taskStartDateDetail') as HTMLParagraphElement).textContent = `Start Date: ${task.startDate || 'N/A'}`;
 
     (document.getElementById('taskEndDateDetail') as HTMLParagraphElement).textContent = `End Date: ${task.endDate || 'N/A'}`;
-    
+
     (document.getElementById('taskAssignedUserDetail') as HTMLParagraphElement).textContent = `Assigned User: ${task.assignedUserId || 'N/A'}`;
 
     const userSelect = document.getElementById('taskAssignUser') as HTMLSelectElement;

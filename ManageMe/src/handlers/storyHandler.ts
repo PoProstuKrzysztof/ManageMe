@@ -97,6 +97,7 @@ export function renderStories(projectId: string) {
             doingColumn.appendChild(storyItem);
         } else if (story.status === 'done') {
             doneColumn.appendChild(storyItem);
+            storyItem.removeChild(moveButton)
         }
     });
 
