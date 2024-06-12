@@ -79,3 +79,18 @@ export const register = async (req:express.Request,res: express.Response) => {
         }
       }
 }
+
+export const logout = async (req: express.Request, res: express.Response) => {
+  try {
+    const authHeader = req.headers['cookie'];
+    if(!authHeader){
+      return res.status(404).json({message:"You are not looged in"});
+    }
+    res.clearCookie('MANAGE-ME-AUTH', { domain: 'localhost', path: '/' });
+     res.sendStatus(200);
+     return res.end();
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+};

@@ -11,6 +11,7 @@
         <div class="user-details">
             <p id="userName"></p>
             <p id="userEmail"></p>
+            <button id="logoutBtn">Logout</button>
         </div>
     </header>
     <main>
@@ -94,7 +95,7 @@
     </main>
     <script type="module" src="/src/main.ts"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+         document.addEventListener('DOMContentLoaded', () => {
             const userName = localStorage.getItem('userName');
             const userEmail = localStorage.getItem('userEmail');
 
@@ -105,6 +106,22 @@
 
             document.getElementById('userName').textContent = `Name: ${userName}`;
             document.getElementById('userEmail').textContent = `Email: ${userEmail}`;
+
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                const response = await fetch('http://localhost:3000/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include' 
+                });
+
+                if (response.status === 200) {
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userEmail');
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Logout failed');
+                }
+            });
+
         });
     </script>
 </body>
