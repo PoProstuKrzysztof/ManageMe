@@ -1,9 +1,6 @@
 import './style.css';
-import { initializeEventListeners } from './handlers/eventListener';
-import { renderProjects } from './handlers/projectHandler';
-import { renderUser } from './handlers/userHandler';
+import { initializeEventListeners } from './handlers/eventListener.ts';
+import { renderProjects } from './handlers/projectHandler.ts';
 
-// Inicjalizacja aplikacji
 renderProjects();
-renderUser();
 initializeEventListeners();

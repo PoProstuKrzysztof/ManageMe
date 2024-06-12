@@ -11,6 +11,7 @@
         <div class="user-details">
             <p id="userName"></p>
             <p id="userEmail"></p>
+            <button id="logoutBtn">Logout</button>
         </div>
     </header>
     <main>
@@ -50,7 +51,7 @@
                 </select>
                 <input type="number" id="taskEstimatedHours" placeholder="Estimated Hours">
                 <select id="taskStory">
-                    <!-- Opcje będą wypełniane dynamicznie -->
+
                 </select>
                 <button id="createTaskBtn" class="create-btn">Create Task</button>
             </div>
@@ -93,5 +94,8 @@
         </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
+    <script src="./src/scripts/logout.js"></script>
+    <script src="./src/scripts/displayCurrentUser.js"></script>
+         
 </body>
 </html>

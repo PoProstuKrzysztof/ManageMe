@@ -1,7 +1,7 @@
-import { TaskService } from '../services/TaskService';
-import { UserService } from '../services/UserService'; 
-import ITask from '../models/ITask';
-import { renderStories } from './storyHandler';
+import { TaskService } from '../services/TaskService.ts';
+import { UserService } from '../services/UserService.ts'; 
+import ITask from '../models/ITask.ts';
+import { renderStories } from './storyHandler.ts';
 
 const taskService = new TaskService();
 const userService = new UserService(); 

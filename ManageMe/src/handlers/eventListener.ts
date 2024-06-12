@@ -1,6 +1,6 @@
-import { createProject, deleteSelectedProject, showProjectList } from './projectHandler';
-import { createStory, closeStoryModal } from './storyHandler';
-import { createTask, assignUser, markTaskAsDone } from './taskHandler';
+import { createProject, deleteSelectedProject, showProjectList } from './projectHandler.ts';
+import { createStory, closeStoryModal } from './storyHandler.ts';
+import { createTask, assignUser, markTaskAsDone } from './taskHandler.ts';
 
 export function initializeEventListeners() {
     document.getElementById('createProjectBtn')!.addEventListener('click', createProject);

@@ -1,6 +1,6 @@
-import { ProjectService } from '../services/ProjectService';
-import IProject from '../models/IProject';
-import { renderStories } from './storyHandler';
+import { ProjectService } from '../services/ProjectService.ts';
+import IProject from '../models/IProject.ts';
+import { renderStories } from './storyHandler.ts';
 
 const projectService = new ProjectService();
 

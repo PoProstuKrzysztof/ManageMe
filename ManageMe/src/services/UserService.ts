@@ -1,4 +1,4 @@
-import IUser from '../models/IUser';
+import IUser from '../models/IUser.ts';
 
 export class UserService {
     private users: IUser[];
@@ -10,7 +10,7 @@ export class UserService {
             { id: '2', name: 'Developer User', email: 'developer@example.com', role: 'developer' },
             { id: '3', name: 'DevOps User', email: 'devops@example.com', role: 'devops' }
         ];
-        this.loggedInUser = this.users[0]; // Zalogowany użytkownik to admin
+        this.loggedInUser = this.users[0]; 
     }
 
     getUser(): IUser {
