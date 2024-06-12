@@ -21,6 +21,10 @@ export class TaskService {
         return this.tasks.find(task => task.id === id);
     }
 
+    getTasksByStory(storyId: string): ITask[] {
+        return this.tasks.filter(task => task.storyId === storyId);
+    }
+
     update(id: string, updatedTask: Partial<ITask>): void {
         const index = this.tasks.findIndex(task => task.id === id);
         if (index !== -1) {
