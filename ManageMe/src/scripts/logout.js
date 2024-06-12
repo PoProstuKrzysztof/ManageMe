@@ -7,6 +7,7 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
     if (response.status === 200) {
         localStorage.removeItem('userName');
         localStorage.removeItem('userEmail');
+        localStorage.removeItem('userRole');
         window.location.href = 'login.html';
     } else {
         alert('Logout failed');

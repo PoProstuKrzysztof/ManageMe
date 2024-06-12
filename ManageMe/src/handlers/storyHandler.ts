@@ -1,12 +1,11 @@
 import { StoryService } from '../services/StoryService.ts';
 import { ProjectService } from '../services/ProjectService.ts';
-import { UserService } from '../services/UserService.ts';
+
 
 
 
 const storyService = new StoryService();
 const projectService = new ProjectService();
-const userService = new UserService();
 
 
 export function createStory() {
@@ -16,8 +15,7 @@ export function createStory() {
     const projectId = projectService.getCurrentProject()?.id;
 
     if (name && description && projectId) {
-        const owner = userService.getUser()?.id || '';
-        storyService.create(name, description, priority, projectId, owner);
+        storyService.create(name, description, priority, projectId);
         renderStories(projectId);
         clearStoryForm();
         closeStoryModal(); 
@@ -64,18 +62,35 @@ export function renderStories(projectId: string) {
         const storyState = document.createElement('span');
         storyState.textContent = `State: ${story.status}`;
 
+        const storyCreationDate = document.createElement('span');
+        storyCreationDate.textContent = `Creation date: ${story.creationDate}`
+
+       
+
         storyDetails.appendChild(storyDescription);
         storyDetails.appendChild(storyPriority);
         storyDetails.appendChild(storyState);
+        storyDetails.appendChild(storyCreationDate);
 
         const moveButton = document.createElement('button');
         moveButton.textContent = 'Move';
         moveButton.className = 'move-btn';
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = "Delete";
+        deleteButton.className = 'delete-btn'
+
         moveButton.addEventListener('click', () => {
             if (story.status === 'todo') {
                 story.status = 'doing';
             } else if (story.status === 'doing') {
                 story.status = 'done';
+                story.finishDate = new Date().toLocaleDateString();
+
+                const storyEndDate = document.createElement('span');
+                storyEndDate.textContent = `Task finished: ${story.finishDate}`
+
+                storyDetails.appendChild(storyEndDate)
             }
             storyService.update(story.id, story.name, story.description, story.priority, story.status);
             renderStories(projectId);
@@ -101,6 +116,7 @@ export function renderStories(projectId: string) {
     });
 
     document.getElementById('addStoryBtn')!.addEventListener('click', openStoryModal);
+    document.getElementById('createStoryBtn')!.addEventListener('click', createStory);
 }
 
 export function clearStoryForm() {

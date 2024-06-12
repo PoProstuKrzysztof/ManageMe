@@ -213,21 +213,21 @@ button:hover {
 
 .modal-content {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
   max-width: 500px;
+  border: 3px solid ;
   border-radius: 4px;
 }
 
-.close-btn {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.modal-content> .close-btn {
+  color: white;
+  justify-self: center;
+  justify-content: center;
+  background: #dc3545;
 }
 
 .close-btn:hover,
@@ -287,3 +287,6 @@ button:hover {
   text-decoration: underline;
 }
 
+#logoutBtn{
+  max-width: fit-content;
+}

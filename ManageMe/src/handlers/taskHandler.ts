@@ -1,10 +1,8 @@
 import { TaskService } from '../services/TaskService.ts';
-import { UserService } from '../services/UserService.ts'; 
 import ITask from '../models/ITask.ts';
 import { renderStories } from './storyHandler.ts';
 
 const taskService = new TaskService();
-const userService = new UserService(); 
 let currentTaskId: string;
 
 export function createTask() {
@@ -107,15 +105,6 @@ export function showTaskDetails(task: ITask) {
 
     (document.getElementById('taskAssignedUserDetail') as HTMLParagraphElement).textContent = `Assigned User: ${task.assignedUserId || 'N/A'}`;
 
-    const userSelect = document.getElementById('taskAssignUser') as HTMLSelectElement;
-    userSelect.innerHTML = '';
-    const users = userService.getAllUsers().filter(user => user.role !== 'admin');
-    users.forEach(user => {
-        const option = document.createElement('option');
-        option.value = user.id;
-        option.textContent = `${user.name} (${user.role})`;
-        userSelect.appendChild(option);
-    });
 }
 
 export function assignUser() {
