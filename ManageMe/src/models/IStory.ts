@@ -4,7 +4,7 @@ export default interface IStory {
     description: string;
     priority: 'low' | 'medium' | 'high';
     project: string;
-    creationDate: Date;
+    creationDate?: string;
+    finishDate: string;
     status: 'todo' | 'doing' | 'done';
-    owner: string; 
 }

@@ -8,9 +8,9 @@ export class StoryService {
         this.stories = storedStories ? JSON.parse(storedStories) : [];
     }
 
-    create(name: string, description: string, priority: 'low' | 'medium' | 'high', project: string, owner: string): void {
+    create(name: string, description: string, priority: 'low' | 'medium' | 'high', project: string): void {
         const id = self.crypto.randomUUID();
-        const newStory: IStory = { id, name, description, priority, project, creationDate: new Date(), status: 'todo', owner };
+        const newStory: IStory = { id, name, description, priority, project, creationDate: new Date().toLocaleDateString(), status: 'todo', finishDate: null };
         this.stories.push(newStory);
         this.saveStoriesToLocalStorage();
     }
