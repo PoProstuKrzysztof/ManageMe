@@ -1,19 +1,11 @@
 import IProject from '../models/IProject.ts';
 
 export class ProjectService {
-    private projects: IProject[];
-    private currentProjectId: string | null;
-
-    constructor() {
-        const storedProjects = localStorage.getItem('projects');
-        this.projects = storedProjects ? JSON.parse(storedProjects) : [];
-        this.currentProjectId = localStorage.getItem('currentProjectId');
-    }
+    private projects: IProject[] = JSON.parse(localStorage.getItem('projects') || '[]');
+    private currentProjectId: string | null = localStorage.getItem('currentProjectId');
 
     create(name: string, description: string): void {
-        const id = self.crypto.randomUUID();
-        const newProject: IProject = { id, name, description };
-        this.projects.push(newProject);
+        this.projects.push({ id: crypto.randomUUID(), name, description });
         this.saveProjectsToLocalStorage();
     }
 
@@ -26,9 +18,9 @@ export class ProjectService {
     }
 
     update(id: string, name: string, description: string): void {
-        const index = this.projects.findIndex(project => project.id === id);
-        if (index !== -1) {
-            this.projects[index] = { id, name, description };
+        const project = this.getById(id);
+        if (project) {
+            Object.assign(project, { name, description });
             this.saveProjectsToLocalStorage();
         }
     }
@@ -39,18 +31,16 @@ export class ProjectService {
     }
 
     setCurrentProject(id: string): void {
-        this.currentProjectId = id;
-        localStorage.setItem('currentProjectId', id);
+        localStorage.setItem('currentProjectId', this.currentProjectId = id);
     }
 
     getCurrentProject(): IProject | null {
-        const project = this.currentProjectId ? this.getById(this.currentProjectId) : null;
-        return project ?? null;
+        return this.getById(this.currentProjectId || '') || null;
     }
 
     clearCurrentProject(): void {
-        this.currentProjectId = null;
         localStorage.removeItem('currentProjectId');
+        this.currentProjectId = null;
     }
 
     private saveProjectsToLocalStorage(): void {

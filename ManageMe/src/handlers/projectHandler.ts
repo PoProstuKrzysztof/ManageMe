@@ -1,12 +1,28 @@
 import { ProjectService } from '../services/ProjectService.ts';
 import IProject from '../models/IProject.ts';
-import { renderStories } from './storyHandler.ts';
+import { populateStoryDropdown, renderStories } from './storyHandler.ts';
 
 const projectService = new ProjectService();
 
+const getElementValue = (id: string) => (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement).value;
+
+function toggleVisibility(formId: string, listId: string, detailsId: string, hide: boolean) {
+    document.getElementById(formId)!.classList.toggle('hidden', hide);
+    document.getElementById(listId)!.classList.toggle('hidden', hide);
+    document.getElementById(detailsId)!.classList.toggle('hidden', !hide);
+}
+
+function createButton(text: string, className: string, onClick: () => void) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.className = className;
+    button.addEventListener('click', onClick);
+    return button;
+}
+
 export function createProject() {
-    const name = (document.getElementById('projectName') as HTMLInputElement).value;
-    const description = (document.getElementById('projectDescription') as HTMLTextAreaElement).value;
+    const name = getElementValue('projectName');
+    const description = getElementValue('projectDescription');
 
     if (name && description) {
         projectService.create(name, description);
@@ -23,54 +39,34 @@ export function renderProjects() {
     projects.forEach(project => {
         const projectItem = document.createElement('div');
         projectItem.className = 'project-item';
-
-        const projectDetails = document.createElement('div');
-        projectDetails.className = 'project-details';
-
-        const projectName = document.createElement('span');
-        projectName.textContent = project.name;
-
-        const projectDescription = document.createElement('p');
-        projectDescription.textContent = project.description;
-
-        projectDetails.appendChild(projectName);
-        projectDetails.appendChild(projectDescription);
+        projectItem.innerHTML = `
+            <div class="project-details">
+                <span>${project.name}</span>
+                <p>${project.description}</p>
+            </div>
+        `;
 
         const projectActions = document.createElement('div');
         projectActions.className = 'project-actions';
 
-        const selectButton = document.createElement('button');
-        selectButton.textContent = 'Select';
-        selectButton.className = 'select-btn';
-        selectButton.addEventListener('click', () => {
+        projectActions.appendChild(createButton('Select', 'select-btn', () => {
             projectService.setCurrentProject(project.id);
+            populateStoryDropdown();
             showProjectDetails(project);
-        });
+        }));
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'delete-btn';
-        deleteButton.addEventListener('click', () => {
+        projectActions.appendChild(createButton('Delete', 'delete-btn', () => {
             projectService.delete(project.id);
             renderProjects();
-        });
+        }));
 
-        projectActions.appendChild(selectButton);
-        projectActions.appendChild(deleteButton);
-        projectItem.appendChild(projectDetails);
         projectItem.appendChild(projectActions);
         projectList.appendChild(projectItem);
     });
 }
 
 export function showProjectDetails(project: IProject) {
-    const projectForm = document.getElementById('projectForm')!;
-    const projectList = document.getElementById('projectList')!;
-    const projectDetails = document.getElementById('projectDetails')!;
-
-    projectForm.classList.add('hidden');
-    projectList.classList.add('hidden');
-    projectDetails.classList.remove('hidden');
+    toggleVisibility('projectForm', 'projectList', 'projectDetails', true);
 
     const nameInput = document.getElementById('selectedProjectName') as HTMLInputElement;
     const descriptionTextarea = document.getElementById('selectedProjectDescription') as HTMLTextAreaElement;
@@ -78,28 +74,14 @@ export function showProjectDetails(project: IProject) {
     nameInput.value = project.name;
     descriptionTextarea.value = project.description;
 
-    nameInput.addEventListener('input', (event) => {
-        const target = event.target as HTMLInputElement;
-        projectService.update(project.id, target.value, project.description);
-    });
-
-    descriptionTextarea.addEventListener('input', (event) => {
-        const target = event.target as HTMLTextAreaElement;
-        projectService.update(project.id, project.name, target.value);
-    });
+    nameInput.oninput = ({ target }) => projectService.update(project.id, (target as HTMLInputElement).value, project.description);
+    descriptionTextarea.oninput = ({ target }) => projectService.update(project.id, project.name, (target as HTMLTextAreaElement).value);
 
     renderStories(project.id);
 }
 
 export function showProjectList() {
-    const projectForm = document.getElementById('projectForm')!;
-    const projectList = document.getElementById('projectList')!;
-    const projectDetails = document.getElementById('projectDetails')!;
-
-    projectForm.classList.remove('hidden');
-    projectList.classList.remove('hidden');
-    projectDetails.classList.add('hidden');
-
+    toggleVisibility('projectForm', 'projectList', 'projectDetails', false);
     projectService.clearCurrentProject();
     renderProjects();
 }
@@ -113,7 +95,6 @@ export function deleteSelectedProject() {
 }
 
 export function clearForm() {
-    (document.getElementById('projectName') as HTMLInputElement).value = '';
-    (document.getElementById('projectDescription') as HTMLTextAreaElement).value = '';
+    ['projectName', 'projectDescription'].forEach(id => (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement).value = '');
     projectService.clearCurrentProject();
 }

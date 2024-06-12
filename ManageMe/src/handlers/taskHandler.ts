@@ -5,12 +5,16 @@ import { renderStories } from './storyHandler.ts';
 const taskService = new TaskService();
 let currentTaskId: string;
 
-export function createTask() {
-    const name = (document.getElementById('taskName') as HTMLInputElement).value;
-    const description = (document.getElementById('taskDescription') as HTMLTextAreaElement).value;
-    const priority = (document.getElementById('taskPriority') as HTMLSelectElement).value as 'low' | 'medium' | 'high';
-    const estimatedHours = parseInt((document.getElementById('taskEstimatedHours') as HTMLInputElement).value, 10);
-    const storyId = (document.getElementById('taskStory') as HTMLSelectElement).value;
+function getElementValue(id: string): string {
+    return (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).value;
+}
+
+function createTask() {
+    const name = getElementValue('taskName');
+    const description = getElementValue('taskDescription');
+    const priority = getElementValue('taskPriority') as 'low' | 'medium' | 'high';
+    const estimatedHours = parseInt(getElementValue('taskEstimatedHours'), 10);
+    const storyId = getElementValue('taskStory');
     const status = 'todo';
     const createdDate = new Date().toISOString();
 
@@ -32,66 +36,50 @@ export function createTask() {
     }
 }
 
-export function renderTasks() {
-
+function renderTasks() {
     const tasks = taskService.getAll();
+    const taskContainer = document.getElementById('taskContainer')!;
+    taskContainer.innerHTML = '';
 
     tasks.forEach(task => {
         const taskItem = document.createElement('div');
         taskItem.className = 'task-item';
         taskItem.addEventListener('click', () => showTaskDetails(task));
 
-        const taskDetails = document.createElement('div');
-        taskDetails.className = 'task-details';
+        taskItem.innerHTML = `
+            <div class="task-details">
+                <span>${task.name}</span>
+                <p>${task.description}</p>
+                <span>Priority: ${task.priority}</span>
+                <span>State: ${task.status}</span>
+            </div>
+        `;
 
-        const taskName = document.createElement('span');
-        taskName.textContent = task.name;
-
-        const taskDescription = document.createElement('p');
-        taskDescription.textContent = task.description;
-
-        const taskPriority = document.createElement('span');
-        taskPriority.textContent = `Priority: ${task.priority}`;
-
-        const taskState = document.createElement('span');
-        taskState.textContent = `State: ${task.status}`;
-
-        taskDetails.appendChild(taskName);
-        taskDetails.appendChild(taskDescription);
-        taskDetails.appendChild(taskPriority);
-        taskDetails.appendChild(taskState);
-
-        taskItem.appendChild(taskDetails);
-
+        taskContainer.appendChild(taskItem);
     });
 }
 
-export function showTaskDetails(task: ITask) {
+function showTaskDetails(task: ITask) {
     currentTaskId = task.id;
     const taskDetails = document.getElementById('taskDetails')!;
     taskDetails.classList.remove('hidden');
 
-    (document.getElementById('taskNameDetail') as HTMLParagraphElement).textContent = `Name: ${task.name}`;
+    const details = {
+        taskNameDetail: `Name: ${task.name}`,
+        taskDescriptionDetail: `Description: ${task.description}`,
+        taskPriorityDetail: `Priority: ${task.priority}`,
+        taskStoryDetail: `Story: ${task.storyId}`,
+        taskStatusDetail: `Status: ${task.status}`,
+        taskCreatedDateDetail: `Created Date: ${task.createdDate}`
+    };
 
-    (document.getElementById('taskDescriptionDetail') as HTMLParagraphElement).textContent = `Description: ${task.description}`;
-
-    (document.getElementById('taskPriorityDetail') as HTMLParagraphElement).textContent = `Priority: ${task.priority}`;
-
-    (document.getElementById('taskStoryDetail') as HTMLParagraphElement).textContent = `Story: ${task.storyId}`;
-
-    (document.getElementById('taskEstimatedHoursDetail') as HTMLParagraphElement).textContent = `Estimated Hours: ${task.estimatedHours}`;
-
-    (document.getElementById('taskStatusDetail') as HTMLParagraphElement).textContent = `Status: ${task.status}`;
-
-    (document.getElementById('taskCreatedDateDetail') as HTMLParagraphElement).textContent = `Created Date: ${task.createdDate}`;
-
-    (document.getElementById('taskAssignedUserDetail') as HTMLParagraphElement).textContent = `Assigned User: ${task.assignedUserId || 'N/A'}`;
-
+    Object.entries(details).forEach(([id, text]) => {
+        (document.getElementById(id) as HTMLParagraphElement).textContent = text;
+    });
 }
 
-export function assignUser() {
-    const userSelect = document.getElementById('taskAssignUser') as HTMLSelectElement;
-    const userId = userSelect.value;
+function assignUser() {
+    const userId = getElementValue('taskAssignUser');
     const task = taskService.getById(currentTaskId);
 
     if (task && userId) {
@@ -105,7 +93,7 @@ export function assignUser() {
     }
 }
 
-export function markTaskAsDone() {
+function markTaskAsDone() {
     const task = taskService.getById(currentTaskId);
 
     if (task) {
@@ -118,10 +106,10 @@ export function markTaskAsDone() {
     }
 }
 
-export function clearTaskForm() {
-    (document.getElementById('taskName') as HTMLInputElement).value = '';
-    (document.getElementById('taskDescription') as HTMLTextAreaElement).value = '';
-    (document.getElementById('taskPriority') as HTMLSelectElement).value = 'low';
-    (document.getElementById('taskEstimatedHours') as HTMLInputElement).value = '';
-    (document.getElementById('taskStory') as HTMLSelectElement).value = '';
+function clearTaskForm() {
+    ['taskName', 'taskDescription', 'taskPriority', 'taskEstimatedHours', 'taskStory'].forEach(id => {
+        (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).value = id === 'taskPriority' ? 'low' : '';
+    });
 }
+
+export { createTask, renderTasks, showTaskDetails, assignUser, markTaskAsDone, clearTaskForm };

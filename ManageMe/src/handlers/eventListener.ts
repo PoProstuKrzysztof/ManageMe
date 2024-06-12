@@ -1,5 +1,5 @@
 import { createProject, deleteSelectedProject, showProjectList } from './projectHandler.ts';
-import { createStory, closeStoryModal } from './storyHandler.ts';
+import { createStory, closeStoryModal, populateStoryDropdown} from './storyHandler.ts';
 import { createTask, assignUser, markTaskAsDone } from './taskHandler.ts';
 
 export function initializeEventListeners() {
@@ -11,7 +11,6 @@ export function initializeEventListeners() {
     document.getElementById('closeStoryModal')!.addEventListener('click', closeStoryModal);
     document.getElementById('assignUserBtn')!.addEventListener('click', assignUser);
     document.getElementById('markDoneBtn')!.addEventListener('click', markTaskAsDone);
-
 
 
 }

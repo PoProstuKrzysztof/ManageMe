@@ -1,35 +1,37 @@
 import { StoryService } from '../services/StoryService.ts';
 import { ProjectService } from '../services/ProjectService.ts';
-
-
-
+import { deleteSelectedProject,showProjectList } from './projectHandler.ts';
 
 const storyService = new StoryService();
 const projectService = new ProjectService();
 
+const getElementValue = (id: string) => (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).value;
 
 export function createStory() {
-    const name = (document.getElementById('storyName') as HTMLInputElement).value;
-    const description = (document.getElementById('storyDescription') as HTMLTextAreaElement).value;
-    const priority = (document.getElementById('storyPriority') as HTMLSelectElement).value as 'low' | 'medium' | 'high';
+    const name = getElementValue('storyName');
+    const description = getElementValue('storyDescription');
+    const priority = getElementValue('storyPriority') as 'low' | 'medium' | 'high';
     const projectId = projectService.getCurrentProject()?.id;
 
     if (name && description && projectId) {
         storyService.create(name, description, priority, projectId);
         renderStories(projectId);
         clearStoryForm();
-        closeStoryModal(); 
+        closeStoryModal();
     }
 }
 
 export function renderStories(projectId: string) {
-    const todoColumn = document.getElementById('todoColumn')!;
-    const doingColumn = document.getElementById('doingColumn')!;
-    const doneColumn = document.getElementById('doneColumn')!;
+    const columns = {
+        todo: document.getElementById('todoColumn')!,
+        doing: document.getElementById('doingColumn')!,
+        done: document.getElementById('doneColumn')!
+    };
 
-    todoColumn.innerHTML = '<h3>To Do <span id="addStoryBtn" class="add-btn">+</span></h3>';
-    doingColumn.innerHTML = '<h3>Doing</h3>';
-    doneColumn.innerHTML = '<h3>Done</h3>';
+    // Ustaw nagłówki kolumn
+    columns.todo.innerHTML = '<h3>To Do <span id="addStoryBtn" class="add-btn">+</span></h3>';
+    columns.doing.innerHTML = '<h3>Doing</h3>';
+    columns.done.innerHTML = '<h3>Done</h3>';
 
     const stories = storyService.getAll().filter(story => story.project === projectId);
 
@@ -37,106 +39,86 @@ export function renderStories(projectId: string) {
         const storyItem = document.createElement('div');
         storyItem.className = 'story-item';
 
-        const storyName = document.createElement('span');
-        storyName.textContent = story.name;
+        storyItem.innerHTML = `
+            <span>${story.name}</span>
+            <button class="info-btn">Info</button>
+            <div class="story-details">
+                <p>${story.description}</p>
+                <p>Priority: ${story.priority}</p>
+                <span>State: ${story.status}</span>
+                <span>Creation date: ${story.creationDate}</span>
+            </div>
+            <button class="move-btn">Move</button>
+            <button class="delete-btn">Delete</button>
+        `;
 
-        const infoButton = document.createElement('button');
-        infoButton.textContent = 'Info';
-        infoButton.className = 'info-btn';
-        infoButton.addEventListener('click', () => {
-            const details = storyItem.querySelector('.story-details')!;
-            const actions = storyItem.querySelector('.story-actions')!;
-            details.classList.toggle('active');
-            actions.classList.toggle('active');
-        });
+        const infoButton = storyItem.querySelector('.info-btn')!;
+        const storyDetails = storyItem.querySelector('.story-details')!;
+        const moveButton = storyItem.querySelector('.move-btn')!;
+        const deleteButton = storyItem.querySelector('.delete-btn')!;
 
-        const storyDetails = document.createElement('div');
-        storyDetails.className = 'story-details';
-
-        const storyDescription = document.createElement('p');
-        storyDescription.textContent = story.description;
-
-        const storyPriority = document.createElement('p');
-        storyPriority.textContent = `Priority: ${story.priority}`;
-
-        const storyState = document.createElement('span');
-        storyState.textContent = `State: ${story.status}`;
-
-        const storyCreationDate = document.createElement('span');
-        storyCreationDate.textContent = `Creation date: ${story.creationDate}`
-
-       
-
-        storyDetails.appendChild(storyDescription);
-        storyDetails.appendChild(storyPriority);
-        storyDetails.appendChild(storyState);
-        storyDetails.appendChild(storyCreationDate);
-
-        const moveButton = document.createElement('button');
-        moveButton.textContent = 'Move';
-        moveButton.className = 'move-btn';
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = "Delete";
-        deleteButton.className = 'delete-btn'
+        infoButton.addEventListener('click', () => storyDetails.classList.toggle('active'));
 
         moveButton.addEventListener('click', () => {
-            if (story.status === 'todo') {
-                story.status = 'doing';
-            } else if (story.status === 'doing') {
-                story.status = 'done';
+            story.status = story.status === 'todo' ? 'doing' : 'done';
+            if (story.status === 'done') {
                 story.finishDate = new Date().toLocaleDateString();
-
-                const storyEndDate = document.createElement('span');
-                storyEndDate.textContent = `Task finished: ${story.finishDate}`
-
-                storyDetails.appendChild(storyEndDate)
+                storyDetails.innerHTML += `<span>Task finished: ${story.finishDate}</span>`;
+                moveButton.remove();
             }
             storyService.update(story.id, story.name, story.description, story.priority, story.status);
             renderStories(projectId);
         });
 
-        const storyActions = document.createElement('div');
-        storyActions.className = 'story-actions';
+        deleteButton.addEventListener('click', () => {
+            storyService.delete(story.id);
+            renderStories(projectId);
+        });
 
-        storyItem.appendChild(storyName);
-        storyItem.appendChild(infoButton);
-        storyItem.appendChild(moveButton);
-        storyItem.appendChild(storyDetails);
-        storyItem.appendChild(storyActions);
-
-        if (story.status === 'todo') {
-            todoColumn.appendChild(storyItem);
-        } else if (story.status === 'doing') {
-            doingColumn.appendChild(storyItem);
-        } else if (story.status === 'done') {
-            doneColumn.appendChild(storyItem);
-            storyItem.removeChild(moveButton)
-        }
+        columns[story.status].appendChild(storyItem);
     });
 
     document.getElementById('addStoryBtn')!.addEventListener('click', openStoryModal);
     document.getElementById('createStoryBtn')!.addEventListener('click', createStory);
 }
 
-export function clearStoryForm() {
-    (document.getElementById('storyName') as HTMLInputElement).value = '';
-    (document.getElementById('storyDescription') as HTMLTextAreaElement).value = '';
-    (document.getElementById('storyPriority') as HTMLSelectElement).value = 'low';
+export function populateStoryDropdown() {
+    const taskStorySelect = document.getElementById('taskStory') as HTMLSelectElement;
+    taskStorySelect.innerHTML = '';
+
+    storyService.getAll().forEach(story => {
+        const option = document.createElement('option');
+        option.value = story.id;
+        option.text = story.name;
+        taskStorySelect.appendChild(option);
+    });
 }
 
-export function showTaskForm(storyId: string) {
-    const taskForm = document.getElementById('taskForm')!;
-    taskForm.classList.remove('hidden');
-    (document.getElementById('taskStory') as HTMLSelectElement).value = storyId;
+export function clearStoryForm() {
+    ['storyName', 'storyDescription', 'storyPriority'].forEach(id => (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).value = '');
 }
 
 export function openStoryModal() {
-    const storyModal = document.getElementById('storyModal')!;
-    storyModal.classList.remove('hidden');
+    document.getElementById('storyModal')!.classList.remove('hidden');
 }
 
 export function closeStoryModal() {
-    const storyModal = document.getElementById('storyModal')!;
-    storyModal.classList.add('hidden');
+    document.getElementById('storyModal')!.classList.add('hidden');
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const currentProjectId = projectService.getCurrentProject()?.id;
+    if (currentProjectId) {
+        renderStories(currentProjectId);
+    }
+    document.getElementById('createProjectBtn')!.addEventListener('click', () => {
+        const name = getElementValue('projectName');
+        const description = getElementValue('projectDescription');
+        if (name && description) {
+            projectService.create(name, description);
+            projectService.setCurrentProject(projectService.getAll().slice(-1)[0].id);
+            renderStories(projectService.getCurrentProject()?.id!);
+        }
+    });
+    document.getElementById('backBtn')!.addEventListener('click', showProjectList);
+    document.getElementById('deleteSelectedProjectBtn')!.addEventListener('click', deleteSelectedProject);
+});
