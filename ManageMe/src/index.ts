@@ -10,7 +10,7 @@ import router from "./router/index";
 dotenv.config()
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: ['http://localhost:3000','http://localhost:5173'], credentials: true }));
 app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
