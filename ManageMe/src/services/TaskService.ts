@@ -1,4 +1,4 @@
-import ITask from '../models/ITask';
+import ITask from '../models/ITask.ts';
 
 export class TaskService {
     private tasks: ITask[];

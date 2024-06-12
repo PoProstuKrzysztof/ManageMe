@@ -1,4 +1,4 @@
-import IProject from '../models/IProject';
+import IProject from '../models/IProject.ts';
 
 export class ProjectService {
     private projects: IProject[];

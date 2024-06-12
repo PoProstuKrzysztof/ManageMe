@@ -1,5 +1,4 @@
-// src/services/StoryService.ts
-import IStory from '../models/IStory';
+import IStory from '../models/IStory.ts';
 
 export class StoryService {
     private stories: IStory[];

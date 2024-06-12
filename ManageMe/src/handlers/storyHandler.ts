@@ -1,6 +1,6 @@
-import { StoryService } from '../services/StoryService';
-import { ProjectService } from '../services/ProjectService';
-import { UserService } from '../services/UserService';
+import { StoryService } from '../services/StoryService.ts';
+import { ProjectService } from '../services/ProjectService.ts';
+import { UserService } from '../services/UserService.ts';
 
 
 
@@ -13,7 +13,6 @@ export function createStory() {
     const name = (document.getElementById('storyName') as HTMLInputElement).value;
     const description = (document.getElementById('storyDescription') as HTMLTextAreaElement).value;
     const priority = (document.getElementById('storyPriority') as HTMLSelectElement).value as 'low' | 'medium' | 'high';
-    const status = 'todo';
     const projectId = projectService.getCurrentProject()?.id;
 
     if (name && description && projectId) {
