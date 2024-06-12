@@ -94,35 +94,8 @@
         </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
-    <script>
-         document.addEventListener('DOMContentLoaded', () => {
-            const userName = localStorage.getItem('userName');
-            const userEmail = localStorage.getItem('userEmail');
-
-            if (!userName || !userEmail) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            document.getElementById('userName').textContent = `Name: ${userName}`;
-            document.getElementById('userEmail').textContent = `Email: ${userEmail}`;
-
-            document.getElementById('logoutBtn').addEventListener('click', async () => {
-                const response = await fetch('http://localhost:3000/auth/logout', {
-                    method: 'POST',
-                    credentials: 'include' 
-                });
-
-                if (response.status === 200) {
-                    localStorage.removeItem('userName');
-                    localStorage.removeItem('userEmail');
-                    window.location.href = 'login.html';
-                } else {
-                    alert('Logout failed');
-                }
-            });
-
-        });
-    </script>
+    <script src="./src/scripts/logout.js"></script>
+    <script src="./src/scripts/displayCurrentUser.js"></script>
+         
 </body>
 </html>
