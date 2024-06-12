@@ -8,14 +8,10 @@ export function initializeEventListeners() {
     document.getElementById('deleteSelectedProjectBtn')!.addEventListener('click', deleteSelectedProject);
     document.getElementById('createStoryBtn')!.addEventListener('click', createStory);
     document.getElementById('createTaskBtn')!.addEventListener('click', createTask);
+    document.getElementById('closeStoryModal')!.addEventListener('click', closeStoryModal);
     document.getElementById('assignUserBtn')!.addEventListener('click', assignUser);
     document.getElementById('markDoneBtn')!.addEventListener('click', markTaskAsDone);
-    document.getElementById('closeStoryModal')!.addEventListener('click', closeStoryModal);
 
-    window.addEventListener('click', (event) => {
-        const storyModal = document.getElementById('storyModal')!;
-        if (event.target === storyModal) {
-            closeStoryModal();
-        }
-    });
+
+
 }

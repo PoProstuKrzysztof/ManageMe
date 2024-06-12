@@ -33,13 +33,6 @@ export function createTask() {
 }
 
 export function renderTasks() {
-    const taskTodoColumn = document.getElementById('taskTodoColumn')!;
-    const taskDoingColumn = document.getElementById('taskDoingColumn')!;
-    const taskDoneColumn = document.getElementById('taskDoneColumn')!;
-
-    taskTodoColumn.innerHTML = '<h3>To Do</h3>';
-    taskDoingColumn.innerHTML = '<h3>Doing</h3>';
-    taskDoneColumn.innerHTML = '<h3>Done</h3>';
 
     const tasks = taskService.getAll();
 
@@ -70,13 +63,6 @@ export function renderTasks() {
 
         taskItem.appendChild(taskDetails);
 
-        if (task.status === 'todo') {
-            taskTodoColumn.appendChild(taskItem);
-        } else if (task.status === 'doing') {
-            taskDoingColumn.appendChild(taskItem);
-        } else if (task.status === 'done') {
-            taskDoneColumn.appendChild(taskItem);
-        }
     });
 }
 
@@ -98,10 +84,6 @@ export function showTaskDetails(task: ITask) {
     (document.getElementById('taskStatusDetail') as HTMLParagraphElement).textContent = `Status: ${task.status}`;
 
     (document.getElementById('taskCreatedDateDetail') as HTMLParagraphElement).textContent = `Created Date: ${task.createdDate}`;
-
-    (document.getElementById('taskStartDateDetail') as HTMLParagraphElement).textContent = `Start Date: ${task.startDate || 'N/A'}`;
-
-    (document.getElementById('taskEndDateDetail') as HTMLParagraphElement).textContent = `End Date: ${task.endDate || 'N/A'}`;
 
     (document.getElementById('taskAssignedUserDetail') as HTMLParagraphElement).textContent = `Assigned User: ${task.assignedUserId || 'N/A'}`;
 
